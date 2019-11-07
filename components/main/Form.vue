@@ -52,38 +52,74 @@
 		<div class="form_container">
 			<p class="form_subtitle">Контактные данные</p>
 			<div class="form_group">
-				<div class="form_rating form_rating--success">
+				<div class="form_rating">
 					<label class="form_label">Оценка резюме</label>
 					<div class="form_rating_inner">
-						<font-awesome-icon :icon="['fas', 'star']" />
-						<font-awesome-icon :icon="['fas', 'star']" />
-						<font-awesome-icon :icon="['fas', 'star']" />
-						<font-awesome-icon :icon="['fas', 'star']" />
-						<font-awesome-icon :icon="['fas', 'star']" />
+						<div
+							class="form_rating_star"
+							v-for="(star, index) in 5"
+							:key="index"
+							:class="[
+								{'form_rating--success': summaryRating == 5},
+								{'form_rating--good': summaryRating == 4},
+								{'form_rating--satisfy': summaryRating == 3},
+								{'form_rating--bad': summaryRating == 2},
+								{'form_rating--worst': summaryRating == 1}
+							]"
+						>
+							<font-awesome-icon
+								:icon="[ (index >= summaryRating) ? 'far' : 'fas' , 'star']"
+								@click="summaryRating = index + 1"
+							/>
+						</div>
 					</div>
-					<input type="hidden">
+					<input type="hidden" v-model="summaryRating">
 				</div>
-				<div class="form_rating form_rating--worst">
+				<div class="form_rating">
 					<label class="form_label">Оценка тестового задания</label>
 					<div class="form_rating_inner">
-						<font-awesome-icon :icon="['fas', 'star']" />
-						<font-awesome-icon :icon="['far', 'star']" />
-						<font-awesome-icon :icon="['far', 'star']" />
-						<font-awesome-icon :icon="['far', 'star']" />
-						<font-awesome-icon :icon="['far', 'star']" />
+						<div
+							class="form_rating_star"
+							v-for="(star, index) in 5"
+							:key="index"
+							:class="[
+								{'form_rating--success': testRating == 5},
+								{'form_rating--good': testRating == 4},
+								{'form_rating--satisfy': testRating == 3},
+								{'form_rating--bad': testRating == 2},
+								{'form_rating--worst': testRating == 1}
+							]"
+						>
+							<font-awesome-icon
+								:icon="[ (index >= testRating) ? 'far' : 'fas' , 'star']"
+								@click="testRating = index + 1"
+							/>
+						</div>
 					</div>
-					<input type="hidden">
+					<input type="hidden" v-model="testRating">
 				</div>
-				<div class="form_rating form_rating--bad">
+				<div class="form_rating">
 					<label class="form_label">Оценка собеседования</label>
 					<div class="form_rating_inner">
-						<font-awesome-icon :icon="['fas', 'star']" />
-						<font-awesome-icon :icon="['far', 'star']" />
-						<font-awesome-icon :icon="['far', 'star']" />
-						<font-awesome-icon :icon="['far', 'star']" />
-						<font-awesome-icon :icon="['far', 'star']" />
+						<div
+							class="form_rating_star"
+							v-for="(star, index) in 5"
+							:key="index"
+							:class="[
+								{'form_rating--success': interviewRating == 5},
+								{'form_rating--good': interviewRating == 4},
+								{'form_rating--satisfy': interviewRating == 3},
+								{'form_rating--bad': interviewRating == 2},
+								{'form_rating--worst': interviewRating == 1}
+							]"
+						>
+							<font-awesome-icon
+								:icon="[ (index >= interviewRating) ? 'far' : 'fas' , 'star']"
+								@click="interviewRating = index + 1"
+							/>
+						</div>
 					</div>
-					<input type="hidden">
+					<input type="hidden" v-model="interviewRating">
 				</div>
 			</div>
 		</div>
@@ -101,6 +137,13 @@
 	import AppButton from '@/components/ui/Button'
 
 	export default {
+		data() {
+			return {
+				summaryRating: 0,
+				testRating: 0,
+				interviewRating: 0
+			}
+		},
 		components: {
 			AppFile,
 			AppButton
@@ -222,14 +265,20 @@
 			&_inner {
 				display: flex;
 				margin-top: 1px;
+			}
+
+			&_star {
+				display: inline-block;
+
+				&:not(:last-child) {
+					margin-right: 2px;
+				}
 
 				svg {
 					font-size: 16px;
+					color: lightgray;
 					flex-shrink: 0;
-
-					&:not(:last-child) {
-						margin-right: 2px;
-					}
+					cursor: pointer;
 				}
 			}
 
